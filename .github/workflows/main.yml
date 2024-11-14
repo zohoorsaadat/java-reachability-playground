@@ -1,14 +1,18 @@
-# This is a basic workflow to help you get started with Actions
-
-name: Example workflow for Maven using Snyk
-on: push
+name: Generate SBOM
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 jobs:
-  security:
+  generate-sbom:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: RunSnyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Generate CycloneDX SBOM
+        uses: CycloneDX/gh-generate-sbom@v1
+        with:
+          output-file: sbom.xml
+
