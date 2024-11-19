@@ -90,3 +90,10 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+
+    - name: Upload CodeQL database
+    - uses: actions/upload-artifact@v3
+      with:
+        name: codeql-python-db
+        path: /home/runner/work/_temp/codeql_databases/python.zip
+
